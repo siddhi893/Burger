@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Junction - Order Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #e74c3c;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .menu-section {
+            background: rgba(255, 255, 255, 0.95);
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: #e74c3c;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-item {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-color: #e74c3c;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .item-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .item-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .quantity-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .quantity-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: linear-gradient(45deg, #229954, #27ae60);
+            transform: translateY(-2px);
+        }
+
+        .cart-summary {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 250px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+            color: #f39c12;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background: linear-gradient(45deg, #e67e22, #d35400);
+        }
+
+        .drinks-grid .item-image {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+        }
+
+        .fries-grid .item-image {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-summary {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍔 Burger Junction</h1>
+            <p class="tagline">Fresh • Delicious • Fast</p>
+        </header>
+
+        <!-- Burgers Section -->
+        <div class="menu-section">
+            <h2 class="section-title">🍔 Our Burgers</h2>
+            <div class="menu-grid">
+                <div class="menu-item" data-item="chicken-cheese-1">
+                    <div class="item-image">🍔</div>
+                    <div class="item-name">Chicken Cheese Burger #1</div>
+                    <div class="item-description">Juicy grilled chicken patty with melted cheese, fresh lettuce, tomatoes, and our special sauce</div>
+                    <div class="item-price">₹180</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('chicken-cheese-1', -1)">-</button>
+                        <span class="quantity-display" id="qty-chicken-cheese-1">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('chicken-cheese-1', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('chicken-cheese-1', 'Chicken Cheese Burger #1', 180)">Add to Cart</button>
+                </div>
+
+                <div class="menu-item" data-item="chicken-cheese-2">
+                    <div class="item-image">🍔</div>
+                    <div class="item-name">Chicken Cheese Burger #2</div>
+                    <div class="item-description">Double chicken patty with extra cheese, caramelized onions, pickles, and smoky BBQ sauce</div>
+                    <div class="item-price">₹220</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('chicken-cheese-2', -1)">-</button>
+                        <span class="quantity-display" id="qty-chicken-cheese-2">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('chicken-cheese-2', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('chicken-cheese-2', 'Chicken Cheese Burger #2', 220)">Add to Cart</button>
+                </div>
+
+                <div class="menu-item" data-item="veg-cheese">
+                    <div class="item-image">🥬</div>
+                    <div class="item-name">Veg Cheese Burger</div>
+                    <div class="item-description">Crispy vegetable patty with melted cheese, fresh vegetables, and creamy mayo</div>
+                    <div class="item-price">₹150</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('veg-cheese', -1)">-</button>
+                        <span class="quantity-display" id="qty-veg-cheese">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('veg-cheese', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('veg-cheese', 'Veg Cheese Burger', 150)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fries Section -->
+        <div class="menu-section">
+            <h2 class="section-title">🍟 Crispy Fries</h2>
+            <div class="menu-grid fries-grid">
+                <div class="menu-item" data-item="fries-1">
+                    <div class="item-image">🍟</div>
+                    <div class="item-name">Medium Fries #1</div>
+                    <div class="item-description">Golden crispy potato fries seasoned with salt and herbs</div>
+                    <div class="item-price">₹80</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('fries-1', -1)">-</button>
+                        <span class="quantity-display" id="qty-fries-1">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('fries-1', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('fries-1', 'Medium Fries #1', 80)">Add to Cart</button>
+                </div>
+
+                <div class="menu-item" data-item="fries-2">
+                    <div class="item-image">🍟</div>
+                    <div class="item-name">Medium Fries #2</div>
+                    <div class="item-description">Perfectly seasoned crispy fries with a hint of garlic and pepper</div>
+                    <div class="item-price">₹85</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('fries-2', -1)">-</button>
+                        <span class="quantity-display" id="qty-fries-2">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('fries-2', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('fries-2', 'Medium Fries #2', 85)">Add to Cart</button>
+                </div>
+
+                <div class="menu-item" data-item="fries-3">
+                    <div class="item-image">🍟</div>
+                    <div class="item-name">Medium Fries #3</div>
+                    <div class="item-description">Spicy seasoned fries with paprika and chili powder</div>
+                    <div class="item-price">₹90</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('fries-3', -1)">-</button>
+                        <span class="quantity-display" id="qty-fries-3">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('fries-3', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('fries-3', 'Medium Fries #3', 90)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drinks Section -->
+        <div class="menu-section">
+            <h2 class="section-title">🥤 Refreshing Drinks</h2>
+            <div class="menu-grid drinks-grid">
+                <div class="menu-item" data-item="fanta-1">
+                    <div class="item-image">🥤</div>
+                    <div class="item-name">Fanta Orange</div>
+                    <div class="item-description">Refreshing orange flavored carbonated drink - 330ml bottle</div>
+                    <div class="item-price">₹40</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('fanta-1', -1)">-</button>
+                        <span class="quantity-display" id="qty-fanta-1">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('fanta-1', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('fanta-1', 'Fanta Orange', 40)">Add to Cart</button>
+                </div>
+
+                <div class="menu-item" data-item="fanta-2">
+                    <div class="item-image">🥤</div>
+                    <div class="item-name">Fanta Grape</div>
+                    <div class="item-description">Sweet grape flavored carbonated drink - 330ml bottle</div>
+                    <div class="item-price">₹40</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('fanta-2', -1)">-</button>
+                        <span class="quantity-display" id="qty-fanta-2">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('fanta-2', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('fanta-2', 'Fanta Grape', 40)">Add to Cart</button>
+                </div>
+
+                <div class="menu-item" data-item="coke">
+                    <div class="item-image">🥤</div>
+                    <div class="item-name">Coca Cola</div>
+                    <div class="item-description">Classic Coca Cola - 330ml bottle</div>
+                    <div class="item-price">₹45</div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('coke', -1)">-</button>
+                        <span class="quantity-display" id="qty-coke">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('coke', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('coke', 'Coca Cola', 45)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary">
+        <div class="cart-title">🛒 Your Order</div>
+        <div id="cart-items"></div>
+        <div class="cart-total">Total: ₹<span id="total-amount">0</span></div>
+        <button class="checkout-btn" onclick="checkout()">Place Order</button>
+    </div>
+
+    <script>
+        let cart = {};
+        let quantities = {};
+
+        function changeQuantity(itemId, change) {
+            if (!quantities[itemId]) quantities[itemId] = 0;
+            quantities[itemId] = Math.max(0, quantities[itemId] + change);
+            document.getElementById(`qty-${itemId}`).textContent = quantities[itemId];
+        }
+
+        function addToCart(itemId, itemName, price) {
+            const quantity = quantities[itemId] || 0;
+            if (quantity === 0) {
+                alert('Please select a quantity first!');
+                return;
+            }
+
+            if (!cart[itemId]) {
+                cart[itemId] = {
+                    name: itemName,
+                    price: price,
+                    quantity: 0
+                };
+            }
+            
+            cart[itemId].quantity += quantity;
+            quantities[itemId] = 0;
+            document.getElementById(`qty-${itemId}`).textContent = 0;
+            
+            updateCartDisplay();
+            
+            // Visual feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added! ✓';
+            button.style.background = '#27ae60';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+            }, 1000);
+        }
+
+        function updateCartDisplay() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const totalAmountSpan = document.getElementById('total-amount');
+            
+            cartItemsDiv.innerHTML = '';
+            let total = 0;
+            
+            for (let itemId in cart) {
+                const item = cart[itemId];
+                if (item.quantity > 0) {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    const itemDiv = document.createElement('div');
+                    itemDiv.style.cssText = 'margin-bottom: 8px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px;';
+                    itemDiv.innerHTML = `
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>${item.name}</span>
+                            <span>×${item.quantity}</span>
+                        </div>
+                        <div style="text-align: right; color: #f39c12; font-weight: bold;">₹${itemTotal}</div>
+                    `;
+                    cartItemsDiv.appendChild(itemDiv);
+                }
+            }
+            
+            totalAmountSpan.textContent = total;
+        }
+
+        function checkout() {
+            const total = document.getElementById('total-amount').textContent;
+            if (total === '0') {
+                alert('Your cart is empty! Please add some items first.');
+                return;
+            }
+            
+            let orderSummary = 'Order Summary:\n\n';
+            for (let itemId in cart) {
+                const item = cart[itemId];
+                if (item.quantity > 0) {
+                    orderSummary += `${item.name} × ${item.quantity} = ₹${item.price * item.quantity}\n`;
+                }
+            }
+            orderSummary += `\nTotal: ₹${total}`;
+            orderSummary += '\n\nThank you for your order! We will prepare it for you shortly.';
+            
+            alert(orderSummary);
+            
+            // Reset cart
+            cart = {};
+            quantities = {};
+            updateCartDisplay();
+            
+            // Reset all quantity displays
+            const qtyDisplays = document.querySelectorAll('.quantity-display');
+            qtyDisplays.forEach(display => display.textContent = '0');
+        }
+
+        // Initialize cart display
+        updateCartDisplay();
+    </script>
+</body>
+</html>
